@@ -11,7 +11,7 @@ import {
 
 export default function Home(){
 
-    Array
+    
 
 
     return(
