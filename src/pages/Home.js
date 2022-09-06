@@ -1,13 +1,19 @@
-import react from "react";
+import React, {useState} from "react";
 
 import { 
     View,
     Text,
     TextInput,
     TouchableOpacity,
-    StyleSheet} from 'react-native';
+    StyleSheet,
+    FlatList
+    }from 'react-native';
 
 export default function Home(){
+
+    Array
+
+
     return(
 
         <View style = {styles.container}>
