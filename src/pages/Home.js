@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 import { 
     View,
@@ -11,23 +11,99 @@ import {
 
 export default function Home(){
 
-    
+    let [novoFilme, setNovoFilme] = useState({});
 
+    function adicionarNovoFilme () {
+        //Criando o objeto data para pegar os dados do filme
+        const data = {
+            id: String (new Date().getTime()),
+            nome: novoFilme
+        }
+
+        //Adicionando o novo filme na lista de filme
+        setLista (oldState => [...oldState, data]);
+    }
+
+
+
+    let [saudacao, setSaudacao] = useState();
+
+    useEffect (() => {
+
+        let horaAtual = new Date().getHours();
+        console.log(horaAtual);
+
+        if (horaAtual < 12) {
+            setSaudacao('Bom Dia');
+        }
+
+        else if (horaAtual >= 12 && horaAtual <18) {
+            setSaudacao ('Boa Tarde');
+        }
+
+        else {
+            setSaudacao('Boa Noite');
+        }
+
+    }, []);
+
+    // 1 parte da aula - Criando o array de filmes e listando
+
+    let [listaFilmes, setLista] = useState ([
+
+        {
+            'id' : 1, 
+            'nome' : 'Carros'
+        },
+
+        {
+            'id' : 2,
+            'nome' : 'Hot Whells Acelleracers'
+        },
+
+        {
+            'id' : 3,
+            'nome' : 'Homem-Aranha'
+        },
+
+        {
+            'id' : 4,
+            'nome' : 'Histórias Cruzadas'
+        },
+
+        {
+            'id' : 5,
+            'nome' : 'Jango'
+        }
+
+    ]);
 
     return(
 
         <View style = {styles.container}>
-            <Text style = {styles.titulo}>My Films Favorites</Text>
-            <Text style = {styles.subtitulo}>Olá Tavin, Boa Noite</Text>
 
-        <TextInput
-        style={styles.campo}
-        placeholder = "Nome do Filme"
-        />
+            <Text style = {styles.titulo}>Meu Filmes</Text>
+            <Text style = {styles.subtitulo}>Olá Tavin, {saudacao}</Text>
 
-        <TouchableOpacity style = {styles.button}>
-            <Text style = {styles.buttonText}>Adicionar</Text>
-        </TouchableOpacity>
+            <TextInput
+                onChangeText={setNovoFilme}
+                style={styles.campo}
+                placeholder = "Nome do Filme"
+            />
+
+            <TouchableOpacity style = {styles.button} onPress={adicionarNovoFilme}>
+                <Text style = {styles.buttonText}>Adicionar</Text>
+            </TouchableOpacity>
+
+            <FlatList
+                data = {listaFilmes}
+                keyExtractor = {item => item.id}
+                renderItem = {({ item }) =>  (
+                    <TouchableOpacity style={styles.buttonFilme}>
+                        <Text style={styles.TextFilme}>{item.nome}</Text>
+                    </TouchableOpacity>
+                )}
+            />
 
         </View>
     );
@@ -62,7 +138,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
         borderRadius: 7,
         padding: 15,
-        marginBottom: 5
+        marginBottom: 15
     },
 
     greeting:{
@@ -81,6 +157,20 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontSize: 17,
         fontWeight: 'bold'
-    }
+    },
+    
+    buttonFilme:{
+        backgroundColor: '#1F1E25',
+        padding: 15,
+        borderRadius: 50,
+        alignItems: 'center',
+        marginVertical: 10
+    },
+
+    TextFilme:{
+        color: '#FFF',
+        fontSize: 22,
+        fontWeight: 'bold'
+    },
 
 }); //Fim dos Estilos
